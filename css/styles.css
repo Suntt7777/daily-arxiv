@@ -244,10 +244,10 @@ header {
   font-weight: 500;
 }
 
-.github-stats {
+/* .github-stats {
   display: flex;
   gap: 6px;
-}
+} */
 
 .star-badge,
 .fork-badge {
