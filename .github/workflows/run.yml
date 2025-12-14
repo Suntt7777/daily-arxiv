@@ -10,11 +10,6 @@ on:
   schedule:
     - cron: "30 1 * * *"
   workflow_dispatch:
-    inputs:
-      max_papers:
-        description: "Max number of papers to crawl (0 = unlimited)"
-        required: false
-        default: "0"
 
 
 jobs:
