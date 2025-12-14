@@ -3,6 +3,9 @@
 
 name: arXiv-daily-ai-enhanced
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: "30 1 * * *"
