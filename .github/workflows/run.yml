@@ -3,9 +3,6 @@
 
 name: arXiv-daily-ai-enhanced
 
-permissions:
-  contents: write
-
 on:
   schedule:
     - cron: "30 1 * * *"
@@ -30,21 +27,6 @@ jobs:
         source .venv/bin/activate
         today=$(date -u "+%Y-%m-%d")
         echo "开始爬取 $today 的arXiv论文... / Starting to crawl $today arXiv papers..."
-
-      # Optional limit for quick testing (0 = unlimited)
-      # MAX_PAPERS="${{ github.event.inputs.max_papers }}"
-      MAX_PAPERS=0
-      if [ -z "$MAX_PAPERS" ]; then
-        MAX_PAPERS="${{ vars.MAX_PAPERS }}"
-      fi
-      MAX_PAPERS="${MAX_PAPERS:-0}"
-      if [[ "$MAX_PAPERS" =~ ^[0-9]+$ ]] && [ "$MAX_PAPERS" -gt 0 ]; then
-        echo "📌 限制本次最多爬取 $MAX_PAPERS 篇 / Limiting crawl to $MAX_PAPERS papers"
-        SCRAPY_LIMIT_ARGS="-s CLOSESPIDER_ITEMCOUNT=$MAX_PAPERS"
-      else
-        echo "📌 本次不限制爬取数量 / No crawl limit"
-        SCRAPY_LIMIT_ARGS=""
-      fi
         
         # 检查今日文件是否已存在，如存在则删除 / Check if today's file exists, delete if found
         if [ -f "data/${today}.jsonl" ]; then
@@ -64,7 +46,7 @@ jobs:
         
         # 使用Scrapy爬取
         # Use Scrapy to crawl
-        scrapy crawl arxiv $SCRAPY_LIMIT_ARGS -o ../data/${today}.jsonl
+        scrapy crawl arxiv -o ../data/${today}.jsonl
         
         # 检查爬取是否成功 / Check if crawling was successful
         if [ ! -f "../data/${today}.jsonl" ]; then
