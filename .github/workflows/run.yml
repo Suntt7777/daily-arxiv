@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with: 
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
